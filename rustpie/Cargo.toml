@@ -1,0 +1,12 @@
+[package]
+name = "rustpie"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+embassy-time = { git = "https://github.com/embassy-rs/embassy.git", package = "embassy-time", branch = "main" }
+embassy-time-driver = { git = "https://github.com/embassy-rs/embassy.git", package = "embassy-time-driver", branch = "main" }
+embassy-executor = { git = "https://github.com/embassy-rs/embassy.git", package = "embassy-executor", branch = "main" }
+embassy-rp = { git = "https://github.com/embassy-rs/embassy.git", package = "embassy-rp", branch = "main" }
+panic-probe = "0.3"
+regex = "1"
