@@ -2,6 +2,7 @@ import machine
 import time
 import socket
 from secrets import SSID, PASSWORD
+import network
 
 # ---------- Temperature Function ----------
 def get_temp(sensor_temp, conversion_factor):
@@ -11,13 +12,23 @@ def get_temp(sensor_temp, conversion_factor):
 
 # ---------- WiFi Connection ----------
 def connect_to_wifi():
-    import network
+    print("Trying to connect to WiFi:", SSID)
+
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     wlan.connect(SSID, PASSWORD)
-    while not wlan.isconnected():
-        pass
-    print("Connected to WiFi:", wlan.ifconfig())  
+
+    for i in range(20):
+        if wlan.isconnected():
+            break
+        print("Waiting for connection...", i)
+        time.sleep(1)
+
+    if wlan.isconnected():
+        print("WiFi connected!")
+        print(wlan.ifconfig())
+    else:
+        print("WiFi FAILED to connect.")
 
 def send_response(temperature, client):
     response = f"""
@@ -64,6 +75,6 @@ while True:
         request = client.recv(1024)
         send_response(temperature, client)
     except Exception as e:
-        print(e)  # Ignore if no client is connected
+        print(e)  
 
     time.sleep(2)
